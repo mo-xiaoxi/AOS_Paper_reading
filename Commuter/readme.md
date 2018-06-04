@@ -1,0 +1,46 @@
+# The Scalable Commutativity Rule: Designing Scalable Software for Multicore Processors
+
+## 简介
+
+本文指出不管何种实现，API的设计方式都是对系统可扩展性影响最大的因素，尤其当面对多核处理器情况下，如何充分保证设计出来的API能充分利用系统资源是一个很大的挑战。本文便设计出一种名为COMMUTER工具，用以接受高级界面模型，并生成相应API操作测试。其主要指导如何设计API。一个例子就是依据文中的API设计规范来设计，18个文件系统的POSIX相关调用都能显著地提高可扩展性。
+
+
+
+## 主要内容
+
+Colyer认为，我们应关注API设计在可扩展性方面的影响。此外，我们还应关注于每个调用执行边界。因为并非所有的调用都是十分频繁的。
+
+在API设计过程中，应务必保证任何情况下多个Commute不会互相干扰，其内存操作必须是无冲突的。
+
+用户可以利用commuter的组建analyzer，依据接口的参数和状态生成一系列表达式，这些表达式可以直接通过TESTGEN转化成实际的测试用例。
+
+为了形象的表达他们的工作，他们介绍了一种新的标记– 冲突覆盖率。冲突覆盖率描述的是在共有数据接口下的所有可能的模式调用。例如对于 18 个POSIX系统调用， TESTGEN 生成 13664 个测试用例，用来查找 Linux ramfs 文件系统的虚拟内存系统的可扩展性问题。
+
+可交换行和并发性之间的关系
+
+- 论文指出如果操作可交换，那么结果（返回值以及系统的状态）显然独立于顺序。论文还指出，代数运算中的可交换要求太过于严格，难以应用到复杂的具有状态的接口中
+
+提出了一个原则： State dependent, Interface-based, Monotonic，即状态独立、基于接口且单调的。
+
+- 大概的意思是，如果一个操作具有特定的系统状态、参数、并发指令的上下文，那么我们应利用这些原则去实现一个状态/参数/并发无冲突的实现。
+
+4条设计可交换接口的Guidline
+
+1. 组件拆分，每个操作负责一件事情。
+2. 允许自由实现
+3. 允许弱序执行
+4. 允许异步释放资源
+
+具体过程中，如何设计一个可扩展性的软件呢？
+
+1. 首先分析接口的可扩展性
+2. 设计一个在可交换环境下的可扩展实现
+
+
+
+
+
+## 参考
+
+1. [https://courses.cs.washington.edu/courses/cse551/15sp/papers/commutativity-sosp13.pdf](https://courses.cs.washington.edu/courses/cse551/15sp/papers/commutativity-sosp13.pdf)
+2. [https://github.com/aclements/commuter](https://github.com/aclements/commuter)
