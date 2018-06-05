@@ -59,3 +59,5 @@ Hyperkernel使用Z3 SMT解算器来验证Hyperkernel的实施。实验过程中�
 
 1. [https://locore.cs.washington.edu/papers/nelson-hyperkernel.pdf](https://locore.cs.washington.edu/papers/nelson-hyperkernel.pdf)
 2. [https://zhuanlan.zhihu.com/p/30105945](https://zhuanlan.zhihu.com/p/30105945)
+3. [https://locore.cs.washington.edu/papers/nelson-hyperkernel-poster.pdf](https://locore.cs.washington.edu/papers/nelson-hyperkernel-poster.pdf)
+4. 
