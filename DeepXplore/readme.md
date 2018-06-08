@@ -150,6 +150,40 @@
 
   ![12](pic/12.png)
 
+  图片模式运行：
+
+  ```bash
+  ubuntu@ubuntu-virtual-machine:~/AOS/deepxplore/ImageNet$ python gen_diff.py -t 0  light 0.3 0.2 1 2 3 0.1
+  /usr/local/lib/python2.7/dist-packages/h5py/__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+    from ._conv import register_converters as _register_converters
+  Using TensorFlow backend.
+  2018-06-08 13:02:10.617459: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+  2018-06-08 13:02:10.721914: W tensorflow/core/framework/allocator.cc:101] Allocation of 411041792 exceeds 10% of system memory.
+  2018-06-08 13:02:11.041253: W tensorflow/core/framework/allocator.cc:101] Allocation of 411041792 exceeds 10% of system memory.
+  2018-06-08 13:02:11.348274: W tensorflow/core/framework/allocator.cc:101] Allocation of 411041792 exceeds 10% of system memory.
+  2018-06-08 13:02:11.697844: W tensorflow/core/framework/allocator.cc:101] Allocation of 411041792 exceeds 10% of system memory.
+  Downloading data from https://github.com/fchollet/deep-learning-models/releases/download/v0.1/vgg19_weights_tf_dim_ordering_tf_kernels.h5
+  574717952/574710816 [==============================] - 4353s 8us/step
+  574726144/574710816 [==============================] - 4353s 8us/step
+  2018-06-08 14:14:48.895939: W tensorflow/core/framework/allocator.cc:101] Allocation of 411041792 exceeds 10% of system memory.
+  2018-06-08 14:14:49.212408: W tensorflow/core/framework/allocator.cc:101] Allocation of 411041792 exceeds 10% of system memory.
+  2018-06-08 14:14:49.656251: W tensorflow/core/framework/allocator.cc:101] Allocation of 411041792 exceeds 10% of system memory.
+  2018-06-08 14:14:49.988666: W tensorflow/core/framework/allocator.cc:101] Allocation of 411041792 exceeds 10% of system memory.
+  Downloading data from https://github.com/fchollet/deep-learning-models/releases/download/v0.2/resnet50_weights_tf_dim_ordering_tf_kernels.h5
+  102858752/102853048 [==============================] - 782s 8us/step
+  102866944/102853048 [==============================] - 782s 8us/step
+  Downloading data from https://s3.amazonaws.com/deep-learning-models/image-models/imagenet_class_index.json
+  40960/35363 [==================================] - 1s 24us/step
+  49152/35363 [=========================================] - 1s 20us/step
+  input already causes different outputs: beer_glass, cocktail_shaker, packet
+  covered neurons percentage 14888 neurons 0.075, 16168 neurons 0.085, 94059 neurons 0.740
+  averaged covered neurons 0.576
+  covered neurons percentage 14888 neurons 0.151, 16168 neurons 0.156, 94059 neurons 0.751
+  averaged covered neurons 0.603
+  ```
+
+  
+
 ## 5. 相关思考
 
 1. 该文章虽然在DL测试领域做出了一个很好的工作，但是距离真正完全实现DL系统测试还有很远的路要走。因为文章的测试模型只是在尝试从近似覆盖模型从训练数据中对比获得整个输入空间。而这种输入空间的获取，一个是相对较难，二是无法保证整个数据覆盖了所有输入，仍然可能存在一些未覆盖的点。
