@@ -55,9 +55,156 @@ Hyperkernel使用Z3 SMT解算器来验证Hyperkernel的实施。实验过程中�
   - 相比于C代码，LLVM的语义简单，而且未定义的行为更少。
   - 与汇编相比，LLVM保留高层的信息，比如类型，但是同时又不涉及过多的细节。
 
+
+
+## 实验
+
+1. 获得对应的docker
+
+  ```bash
+  docker pull mancanfly53373931/docker_hv6:hv6
+  ```
+
+2. 下载hv6
+
+   ```
+   git clone https://github.com/chyyuu/hv6.git
+   ```
+
+3. 安装qemu和llvm
+
+   ```bash
+   sudo apt install qemu
+   sudo apt install llvm
+   ```
+
+4. 编译安装
+
+   ```
+   make -j
+   ```
+
+5. 基本功能测试
+
+   ```bash
+   $ sha1sum /etc/passwd
+   f1daac1b0756095703a816a62d1b94daa118a86b  /etc/passwd
+   $ wttr  
+   * Trying wttr.in (5.9.243.177)
+   GET /?0 HTTP/1.0
+   Host: wttr.in
+   User-Agent: curl
+   
+   HTTP/1.1 200 OK
+   Server: nginx/1.9.14
+   Date: Mon, 04 Jun 2018 11:39:56 GMT
+   Content-Type: text/html; charset=utf-8
+   Content-Length: 354
+   Connection: close
+   Strict-Transport-Security: max-age=63072000; includeSubdomains
+   X-Frame-Options: DENY
+   X-Content-Type-Options: nosniff
+   
+   Weather report: Guangzhou, China
+   
+         .-.      Light Rain Shower
+        (   ).    28-33 °C       
+       (___(__)   ↓ 11 km/h      
+        ‘ ‘ ‘ ‘   8 km           
+       ‘ ‘ ‘ ‘    0.0 mm 
+   ```
+
+   
+
+6. hv6-verify测试
+
+   ```bash
+   root@0ca0071ca44d:~/hv6# make hv6-verify -- -v --failfast HV6.test_sys_set_runnable
+        PY2      hv6-verify
+   Using z3 v4.5.0.0
+   test_sys_set_runnable (__main__.HV6) ... If(Not(ULE(63, 18446744073709551615 + pid.3)),
+      If(@proc_table->struct.proc::ppid.0(0, pid.3) ==
+         @current.0(0),
+         If(@proc_table->struct.proc::state.0(0, pid.3) == 1,
+            0,
+            4294967274),
+         4294967283),
+      4294967293)
+   procs_state.1(current.0)
+   ok
+   
+   ----------------------------------------------------------------------
+   Ran 1 test in 10.566s
+   
+   OK
+   ```
+   整体测试
+
+   ```bash
+   root@0ca0071ca44d:~/hv6#  make hv6-verify
+        PY2      hv6-verify
+   Using z3 v4.5.0.0
+   If(If(ULE(63, 18446744073709551615 + pid.3),
+         4294967293,
+         If(@proc_table->struct.proc::state.0(0, pid.3) == 4,
+            If(ULE(8192, inpn.0),
+               4294967274,
+               If(@page_desc_table->struct.page_desc::pid.0(0,
+                                           inpn.0) ==
+                  @current.0(0),
+                  If(And(Extract(63, 13, size.0) == 0,
+                         ULE(Extract(12, 0, size.0), 4096)),
+                     If(ULE(8192, outpn.0),
+                        4294967274,
+                        If(@page_desc_table->struct.page_desc::pid.0(0,
+                                           outpn.0) ==
+                           @current.0(0),
+                           If(@page_desc_table->struct.page_desc::type.0(0,
+                                           outpn.0) ==
+                              3,
+                              If(ULE(16, outfd.0),
+                                 If(Or(@proc_table->struct.proc::ipc_from.0(0,
+                                           pid.3) ==
+                                       0,
+                                       @proc_table->struct.proc::ipc_from.0(0,
+                                           pid.3) ==
+                                       @current.0(0)),
+                                    0,
+                                    4294967283),
+                                 If(ULE(127,
+                                        18446744073709551615 +
+                                        @proc_table.0(0,
+                                           @current.0(0),
+                                           SignExt(32, outfd.0))),
+                                    If(Or(@proc_table->struct.proc::ipc_from.0(0,
+                                           pid.3) ==
+                                          0,
+                                          @proc_table->struct.proc::ipc_from.0(0,
+                                           pid.3) ==
+                                          @current.0(0)),
+                                       0,
+                                       4294967283),
+                                    4294967274)),
+                              4294967274),
+                           4294967283)),
+                     4294967274),
+                  4294967283)),
+            4294967285)) ==
+      0,
+      0,
+      .....
+      
+      
+   ```
+
+   
+
+
+
 ## 参考
 
 1. [https://locore.cs.washington.edu/papers/nelson-hyperkernel.pdf](https://locore.cs.washington.edu/papers/nelson-hyperkernel.pdf)
 2. [https://zhuanlan.zhihu.com/p/30105945](https://zhuanlan.zhihu.com/p/30105945)
 3. [https://locore.cs.washington.edu/papers/nelson-hyperkernel-poster.pdf](https://locore.cs.washington.edu/papers/nelson-hyperkernel-poster.pdf)
-4. 
+
+   
