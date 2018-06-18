@@ -14,7 +14,6 @@ Dune提供了一个可加载的内核模块，可与未经修改的Linux内核�
 ## 文章贡献
 
 1. 提供了一种使用硬件辅助虚拟化的设计，以便在保留标准操作系统抽象的同时安全有效地将特权硬件功能暴露给用户程序。
-
 2. 详细评估了三种硬件的功能并展示它们如何优化用户程序
 3. 通过三种用例（沙箱、特权分离和垃圾回收）来试验和评估应用程序
 
@@ -26,11 +25,11 @@ Dune将CPU分为两种操作模式，分别是VMX root和VMX non-root模式。VM
 
 如图所示，在Dune下面的进程可以通过libDune运行在ring0态，属于VMX non-root，而正常进程是运行在ring3态 VMX root。
 
-![1](pic/1.png)
+![1](https://github.com/m0xiaoxi/AOS_Paper_reading/blob/master/Dune/pic/1.png?raw=true)
 
 在内核支持方面，Dune的核心是一个管理Vt-x内核模块，对于高优先级的硬件特性有更高的权限，在管理内存，暴露特权级硬件的接口和保留访问内核接口的权限。
 
-![2](pic/2.png)
+![2](https://github.com/m0xiaoxi/AOS_Paper_reading/blob/master/Dune/pic/2.png?raw=true)
 
 ## 个人思考
 

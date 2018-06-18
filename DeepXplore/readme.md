@@ -1,7 +1,4 @@
-
-
-#  DeepXplore: Automated Whitebox Testing of Deep Learning Systems
-
+# DeepXplore: Automated Whitebox Testing of Deep Learning Systems
 
 ## 1. 简介
 
@@ -12,24 +9,19 @@
 ##### 自动化大规模测试DL系统的挑战：
 
 - 1. 如何生成能够触发不同逻辑行为的测试数据
-
-- 2. 如何（在无标记情况下）识别DL系统的错误行为。
+- 1. 如何（在无标记情况下）识别DL系统的错误行为。
 
 ##### 传统测试的限制
 
 - 1. 昂贵的标签成本：对大量DNN测试集打标签是一个很耗费人力成本的工作，而且我们也无法保证人力模式下打出来的标签是否正确。
-
-- 2. 低测试覆盖率
+- 1. 低测试覆盖率
 
 ##### 文章主要贡献
 
 - 1. 引入神经元覆盖技术作为DL系统的第一个白盒测试指标，可以估计一组测试输入所探测的DL逻辑数量
-
-- 2. 证明寻找DL系统之间的大量行为差异并同时最大化神经元覆盖旅的问题可以被表述为联合优化问题，并提出了一种基于梯度的算法来有效解决这个问题
-
-- 3. 研究者们将所有这些技术都实施为DeepXplore（一个白盒DL测试框架）
-
-- 4. DeepXplore生成的测试集也可以用于重新培训相应的DL系统，并能将分类准确度提高3%
+- 1. 证明寻找DL系统之间的大量行为差异并同时最大化神经元覆盖旅的问题可以被表述为联合优化问题，并提出了一种基于梯度的算法来有效解决这个问题
+- 1. 研究者们将所有这些技术都实施为DeepXplore（一个白盒DL测试框架）
+- 1. DeepXplore生成的测试集也可以用于重新培训相应的DL系统，并能将分类准确度提高3%
 
 
 
@@ -43,7 +35,7 @@
 
 - 工作示意图:
 
-  ![4](/Users/moxiaoxi/Desktop/AOS_Paper_reading/DeepXplore/pic/4.png)
+  ![4](https://github.com/m0xiaoxi/AOS_Paper_reading/blob/master/DeepXplore/pic/4.png?raw=true)
 
   DeepXplore基于差分测试运行。其从一组测试输入开始探索模型空间，它将未标记的测试输入作为种子，并生成大量神经元的新测试(即将其激活为高于可定制阈值的值），同时使测试过的 DNN生成不同的行为。
 
@@ -51,13 +43,13 @@
 
 - 示例：两个深度神经网络(NN1、NN2）用于将图像分类为汽车或者人脸。一开始，NN1和NN2都判定图片为汽车（0.95、0.98）
 
-  ![5](pic/5.png)
+  ![5](https://github.com/m0xiaoxi/AOS_Paper_reading/blob/master/DeepXplore/pic/5.png?raw=true)
 
   然后，DeepXplore会尝试修改图片，使达到令一个神经网络将图像归类为汽车，另一个归类为人脸，从而最大化差异，从而发现增大发现异常的可能性。
 
 - 原理：这种测试主要是在探测输入空间介于不同DNN决策边界的部分。（参考4）
 
-  ![6](pic/6.png)
+  ![6](https://github.com/m0xiaoxi/AOS_Paper_reading/blob/master/DeepXplore/pic/6.png?raw=true))
 
   此时的神经网络已经被训练过了，所以权重是固定的。DeepXplore设计了一个算法，用梯度上升来解决联合	优化问题。这种生成测试用例的目标是诱导DL系统给出错误的预测。
 
@@ -65,7 +57,7 @@
 
   联合优化函数如下：
 
-  ![2](pic/2.png)
+  ![2](https://github.com/m0xiaoxi/AOS_Paper_reading/blob/master/DeepXplore/pic/2.png?raw=true)
 
   - 在函数的第一项，我们试图在其他模型保持当前预测的情况下改变一个模型的输入方向，从而让其做出区别于其他模型的预测。用超参数 平衡了这两个因素的相对重要性。
   - 在函数的第二项，我们试图最大限度地激活一个不活跃的神经元，把它推到阈值 t 以上。
@@ -73,7 +65,7 @@
 
   完整算法流程：
 
-  ![7](pic/7.png)
+  ![7](https://github.com/m0xiaoxi/AOS_Paper_reading/blob/master/DeepXplore/pic/7.png?raw=true)
 
   
 
@@ -81,32 +73,31 @@
 
   研究者在3个DNN上进行了测试，分别是用了MNIST、Imagenet、Driving、Contagio/Virustotal、Drebin5个数据集，如下：
 
-  ![1](pic/1.png)在基于图像的问题领域，探索了三种不同的约束：
+  ![1](https://github.com/m0xiaoxi/AOS_Paper_reading/blob/master/DeepXplore/pic/1.png?raw=true)在基于图像的问题领域，探索了三种不同的约束：
 
   - 第一个约束模拟不同照明条件下的效果：DeepXplore可以使图像变暗或变亮，但不能改变内容。 在下图中，上面一行显示的是原始种子输入，下面一行显示的是 DeepXplore发现的差异诱导测试输入。箭头指向表示自动驾驶汽车决定转向的方式。
 
-    ![8](pic/8.png)
+    ![8](https://github.com/m0xiaoxi/AOS_Paper_reading/blob/master/DeepXplore/pic/8.png?raw=true)
 
+- 第二个约束模拟意外或故意用单个小矩形遮挡住的镜头。
 
-  - 第二个约束模拟意外或故意用单个小矩形遮挡住的镜头。
+  ![9](https://github.com/m0xiaoxi/AOS_Paper_reading/blob/master/DeepXplore/pic/9.png?raw=true)
 
-  ![9](pic/9.png)
+- 第三个约束通过允许使用多个微小的黑色矩形进行遮挡来模拟透镜上多处被污垢覆盖后的影响。
 
-  - 第三个约束通过允许使用多个微小的黑色矩形进行遮挡来模拟透镜上多处被污垢覆盖后的影响。
-
-  ![10](pic/10.png)
+  ![10](https://github.com/m0xiaoxi/AOS_Paper_reading/blob/master/DeepXplore/pic/10.png?raw=true)
 
   DeepXplore在所有测试的DNN中发现了数千的错误行为。 下表总结了在用对应测试集中随机选取的 2000个种子输入对 DNN进行测试时，DeepXplore在每个测试的 DNN中发现的错误行为的数量。
 
-  ![11](pic/11.png)
+  ![11](https://github.com/m0xiaoxi/AOS_Paper_reading/blob/master/DeepXplore/pic/11.png?raw=true)
 
   实验测试表明，DeepXplore的神经元覆盖率比随机测试高34.4%，比对抗测试高33.2%，并且针对大多数模型，DeepXplore都可以在短时间内找到第一个能引起异常的输入。
 
-  ![3](pic/3.png)
+  ![3](https://github.com/m0xiaoxi/AOS_Paper_reading/blob/master/DeepXplore/pic/3.png?raw=true)
 
   此外，如果我们将 DNNs集合看作一个集成，并使用多数投票法，那么我们就为所生成的测试案例建立了一个自动标记系统。 通过使用这些新标记的训练样本就可以将神经网络的准确性提高 1-3％。
 
-## 4. 实验 
+## 4. 实验
 
 - [源码](https://github.com/peikexin9/deepxplore)
 
@@ -148,7 +139,7 @@
 
   下图作者给出了不同模式下的照片修改对比图，分别使用光照、遮挡矩形、多个遮挡物模式运行。
 
-  ![12](pic/12.png)
+  ![12](https://github.com/m0xiaoxi/AOS_Paper_reading/blob/master/DeepXplore/pic/12.png?raw=true)
 
   图片模式运行：
 
@@ -194,7 +185,7 @@
 
 4. 另外，针对DL领域的黑样本攻击是否也可以针对性地进行一些研究，如何特异性地自动构造黑样本攻击DL系统
 
-   
+     
 
 ## 5. 参考
 
@@ -202,6 +193,4 @@
 2. [https://www.sigops.org/sosp/sosp17/slides/deepxplore-sosp17-slides.pptx](<https://www.sigops.org/sosp/sosp17/slides/deepxplore-sosp17-slides.pptx>)
 3. [https://github.com/peikexin9/deepxplore](https://github.com/peikexin9/deepxplore)
 4. [https://zhuanlan.zhihu.com/p/30457361](https://zhuanlan.zhihu.com/p/30457361)
-5. [https://zhuanlan.zhihu.com/p/32102821](https://zhuanlan.zhihu.com/p/32102821)
-
-#### 
+5. https://zhuanlan.zhihu.com/p/32102821
